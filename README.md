@@ -3,6 +3,8 @@
 A local, read-only web viewer for AI coding agent sessions.
 It reads the JSONL transcripts that [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and Oh My Pi already write to disk and shows them live in your browser.
 
+![agent-viewer demo: the session list, a session's agent tree and timeline, then the graph canvas updating live as a new reviewer agent spawns and runs its tools](docs/demo.gif)
+
 - **Sessions:** running and recent sessions from both tools, with filters for source, project, branch, date and status.
 - **Agent tree:** main session, subagents and nested subagents, with their agent and session ids.
 - **Timeline:** every prompt, assistant message, thinking block, tool call and result, and skill invocation, read-only.
@@ -50,6 +52,17 @@ To work on the frontend without real transcripts, run the mock server, which ser
 ```bash
 python3 contract/mock_server.py --port 8766
 ```
+
+## Demo recording
+
+The GIF above is recorded from synthetic transcripts of a made-up project, so it shows no real work.
+To re-record it after a UI change (needs `google-chrome` and `ffmpeg`):
+
+```bash
+node demo/record.mjs            # writes docs/demo.gif
+```
+
+`demo/demo_data.py` builds the sessions and then appends the live part in real time while the recorder drives the browser.
 
 ## Design
 
