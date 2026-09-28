@@ -1,0 +1,49 @@
+{
+  "scope": "agent",
+  "tokens": {
+    "input": 4,
+    "output": 6,
+    "cacheRead": 300,
+    "cacheCreation": 300,
+    "reasoning": 0,
+    "total": 610
+  },
+  "costUsd": null,
+  "byModel": {
+    "claude-haiku-4-5-20251001": {
+      "messages": 2,
+      "input": 4,
+      "output": 6,
+      "cacheRead": 300,
+      "cacheCreation": 300
+    }
+  },
+  "tools": {
+    "Bash": {
+      "calls": 1,
+      "errors": 1,
+      "totalDurationMs": 200
+    }
+  },
+  "skills": {},
+  "slashCommands": {},
+  "subagentTypes": {},
+  "agents": {
+    "total": 1,
+    "maxDepth": 2,
+    "running": 0
+  },
+  "durationMs": 800,
+  "activeDurationMs": null,
+  "errors": {
+    "toolErrors": 1,
+    "apiErrors": 0,
+    "aborted": 0
+  },
+  "turns": 1,
+  "parse": {
+    "lines": 4,
+    "skipped": 0,
+    "unknownTypes": {}
+  }
+}

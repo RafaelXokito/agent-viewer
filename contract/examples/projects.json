@@ -1,0 +1,5 @@
+{"items": [
+  {"source": "claude", "project": "-tmp-broken", "cwd": "/tmp/broken", "sessionCount": 1},
+  {"source": "claude", "project": "-tmp-demo", "cwd": "/tmp/demo", "sessionCount": 1},
+  {"source": "omp", "project": "-tmp-demo", "cwd": "/tmp/demo", "sessionCount": 1}
+]}

@@ -1,0 +1,110 @@
+{
+  "sessionKey": "claude:s-chain-2",
+  "rev": 1,
+  "rootKey": "claude:s-chain-2:main",
+  "indexed": true,
+  "truncated": false,
+  "limits": {
+    "toolsPerAgent": 50,
+    "chainHops": 5,
+    "maxNodes": 2000
+  },
+  "nodes": [
+    {
+      "id": "claude:s-chain-2:main",
+      "kind": "agent",
+      "key": "claude:s-chain-2:main",
+      "agentId": "main",
+      "sessionKey": "claude:s-chain-2",
+      "parentId": null,
+      "depth": 0,
+      "isRoot": true,
+      "agentType": "main",
+      "description": null,
+      "name": null,
+      "status": "running",
+      "linkedBy": "root",
+      "warnings": [],
+      "missing": false,
+      "isFork": false,
+      "stoppedByUser": false,
+      "forkedSkill": null,
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "tokensTotal": 1200,
+      "eventCount": 9,
+      "spawnedAt": "2026-09-25T12:00:00.000Z",
+      "lastActivityAt": "2026-09-25T12:05:00.000Z",
+      "childCount": 0,
+      "resumeCount": 0,
+      "toolCalls": 3,
+      "relationToolCalls": 0,
+      "errors": {
+        "toolErrors": 0,
+        "apiErrors": 0,
+        "aborted": 0
+      },
+      "toolsOmitted": 0,
+      "toolsOmittedCalls": 0
+    },
+    {
+      "id": "session|claude:s-chain-1",
+      "kind": "session",
+      "sessionKey": "claude:s-chain-1",
+      "relation": "predecessor",
+      "hops": 1,
+      "title": "Chain part one",
+      "status": "finished",
+      "startedAt": "2026-09-25T11:00:00.000Z",
+      "lastActivityAt": "2026-09-25T11:59:00.000Z",
+      "agentCount": 2,
+      "missing": false
+    },
+    {
+      "id": "session|claude:s-chain-3",
+      "kind": "session",
+      "sessionKey": "claude:s-chain-3",
+      "relation": "successor",
+      "hops": 1,
+      "title": null,
+      "status": null,
+      "startedAt": null,
+      "lastActivityAt": null,
+      "agentCount": null,
+      "missing": true
+    },
+    {
+      "id": "tool|claude:s-chain-2:main|Read",
+      "kind": "tool",
+      "ownerId": "claude:s-chain-2:main",
+      "name": "Read",
+      "calls": 3,
+      "errors": 0,
+      "pending": 1,
+      "totalDurationMs": 90
+    }
+  ],
+  "edges": [
+    {
+      "id": "continued_in|session|claude:s-chain-1|claude:s-chain-2:main",
+      "kind": "continued_in",
+      "from": "session|claude:s-chain-1",
+      "to": "claude:s-chain-2:main"
+    },
+    {
+      "id": "continued_in|claude:s-chain-2:main|session|claude:s-chain-3",
+      "kind": "continued_in",
+      "from": "claude:s-chain-2:main",
+      "to": "session|claude:s-chain-3"
+    },
+    {
+      "id": "uses_tool|claude:s-chain-2:main|tool|claude:s-chain-2:main|Read",
+      "kind": "uses_tool",
+      "from": "claude:s-chain-2:main",
+      "to": "tool|claude:s-chain-2:main|Read",
+      "count": 3,
+      "errors": 0
+    }
+  ]
+}

@@ -1,0 +1,405 @@
+/* agent-viewer graph canvas (FEATURE-graph-canvas section 10): canvas, cards,
+   pills, edges, toolbar, legend, minimap and animations. Colors come from the
+   theme variables of style.css, so both themes apply unchanged. */
+
+.graph-view {
+  --gedge-spawn: color-mix(in srgb, var(--border) 45%, var(--text));
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+}
+
+.graph-canvas {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background-color: var(--bg);
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--border) 70%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+  outline: none;
+}
+.graph-canvas:focus-visible { box-shadow: inset 0 0 0 2px var(--accent); }
+.graph-canvas.is-panning { cursor: grabbing; }
+
+.graph-world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.graph-edges {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.graph-cards, .graph-nodes { position: absolute; left: 0; top: 0; }
+
+/* Visually hidden but read by screen readers. Not `.offscreen`: its fixed
+   position resolves against the transformed card and lands on the canvas. */
+.gsr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- nodes: shared placement and animation ------------------------------- */
+
+.gnode {
+  --x: 0px;
+  --y: 0px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(var(--x), var(--y));
+  transition: transform 200ms ease-out, opacity 150ms ease-out, border-color 200ms ease-out;
+  box-sizing: border-box;
+  font: inherit;
+  color: var(--text);
+  cursor: pointer;
+}
+.no-anim .gnode { transition: none; }
+.gnode.is-new { animation: gnode-in 180ms ease-out, gnode-ring 2s ease-out; }
+.gnode.is-leaving { opacity: 0; pointer-events: none; }
+@keyframes gnode-in {
+  from { opacity: 0; scale: 0.92; }
+  to { opacity: 1; scale: 1; }
+}
+@keyframes gnode-ring {
+  0%, 70% { box-shadow: 0 0 0 3px var(--accent-soft), 0 0 0 5px var(--accent); }
+  100% { box-shadow: var(--shadow); }
+}
+
+/* ---- agent card (240 x 88) ------------------------------------------------ */
+
+.gcard {
+  width: 240px;
+  height: 88px;
+  padding: 7px 10px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--finished);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  outline: none;
+}
+.gcard:hover { border-color: var(--accent); }
+.gcard.status-running { border-color: var(--running); animation: gcard-pulse 1.6s ease-in-out infinite; }
+.gcard.status-running:not(.is-selected) { animation-name: gcard-pulse-glow; }
+.gcard.status-idle { border-left-color: var(--idle); }
+.gcard.status-stale { border-left-color: var(--stale); }
+.gcard.status-unknown { border-left-color: var(--muted); }
+.gcard.is-selected { box-shadow: 0 0 0 2px var(--accent); background: color-mix(in srgb, var(--accent-soft) 45%, var(--panel)); }
+.gcard:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.gcard.is-missing { border-style: dashed; color: var(--muted); }
+.gcard.is-new.status-running { animation: gnode-in 180ms ease-out, gnode-ring 2s ease-out, gcard-pulse 1.6s ease-in-out infinite; }
+@keyframes gcard-pulse {
+  50% { border-color: color-mix(in srgb, var(--running) 25%, var(--panel)); }
+}
+@keyframes gcard-pulse-glow {
+  50% {
+    border-color: color-mix(in srgb, var(--running) 25%, var(--panel));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--running) 30%, transparent), var(--shadow);
+  }
+}
+
+.gcard-head { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 12.5px; }
+.gcard-type { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.gcard-id { color: var(--muted); font-size: 11.5px; flex: none; }
+.gcard-warn { color: var(--warn); flex: none; cursor: help; }
+.gcard-head .badge { flex: none; font-size: 10.5px; padding: 0 5px; }
+.gcard-desc { font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-height: 17px; }
+.gcard-meta { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; }
+.gcard-model { overflow: hidden; text-overflow: ellipsis; min-width: 0; font-size: 11px; }
+.gcard-meta .badge { padding: 0 5px; font-size: 10.5px; }
+.gcard-collapse {
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
+  min-width: 20px;
+  height: 18px;
+  padding: 0 6px;
+  font: inherit;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--muted);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.gcard-collapse:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ---- session card (240 x 64) ---------------------------------------------- */
+
+.gsession {
+  width: 240px;
+  height: 64px;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  text-align: left;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.gsession:hover:not(:disabled) { border-color: var(--accent); }
+.gsession:disabled { cursor: default; opacity: 0.75; }
+.gsession.is-missing { border-style: dashed; color: var(--muted); }
+.gsession-rel { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.gsession-title { font-size: 12.5px; font-weight: 600; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gsession-meta { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+
+/* ---- tool, skill and "+N more" pills (160 x 26) -------------------------- */
+
+.gpill {
+  width: 160px;
+  height: 26px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.gpill:hover { border-color: var(--accent); }
+.gpill-name { overflow: hidden; text-overflow: ellipsis; min-width: 0; font-family: var(--mono); font-size: 11px; }
+.gpill-count { margin-left: auto; color: var(--muted); flex: none; }
+.gpill-err { color: var(--error); flex: none; font-weight: 600; }
+.gtool.has-err { border-color: color-mix(in srgb, var(--error) 55%, var(--border)); }
+.gskill {
+  border-color: var(--skill);
+  border-radius: 4px 12px 12px 4px;
+  color: var(--skill);
+  background: color-mix(in srgb, var(--skill) 8%, var(--panel));
+}
+/* Loaded with the agent definition's `skills:` rather than called. */
+.gskill.is-preloaded { border-style: dashed; }
+.gskill.is-preloaded .gpill-count { font-style: italic; }
+.gmore { color: var(--muted); border-style: dashed; }
+.gmore .gpill-name { font-family: var(--sans); }
+.gpill-active {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--running);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+.gtool.is-active { border-color: var(--running); animation: gpill-blink 1.2s ease-in-out infinite; }
+@keyframes gpill-blink {
+  50% { border-color: color-mix(in srgb, var(--running) 20%, var(--border)); }
+}
+.gpill.is-flash { animation: gpill-flash 600ms ease-out; }
+@keyframes gpill-flash {
+  from { background: var(--accent-soft); border-color: var(--accent); }
+}
+
+/* ---- edges (10.4) ----------------------------------------------------------- */
+
+.gedge { fill: none; stroke-linejoin: round; }
+.gedge-spawn { stroke: var(--gedge-spawn); stroke-width: 1.5; }
+.gedge-spawn.is-orphan { stroke-dasharray: 2 4; stroke-linecap: round; }
+.gedge-resume { stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 6 4; }
+.gedge-continued { stroke: var(--muted); stroke-width: 2; stroke-dasharray: 10 4; }
+.gedge-tool { stroke: var(--muted); stroke-width: 1; }
+.gedge-skill { stroke: var(--skill); stroke-width: 1; stroke-dasharray: 2 3; }
+/* Work in progress: marching dashes on the line to a running tool call or child agent. */
+.gedge.is-active { stroke: var(--running); stroke-width: 2; stroke-dasharray: 6 4; animation: gedge-flow 0.8s linear infinite; }
+@keyframes gedge-flow {
+  to { stroke-dashoffset: -10; }
+}
+.gedge-label {
+  font: 600 11px var(--sans);
+  fill: var(--accent);
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 3px;
+}
+.gmarker-resume path { fill: var(--accent); }
+.gmarker-continued path { fill: var(--muted); }
+
+/* ---- level of detail by zoom (G-PERF-10) ------------------------------------ */
+
+.graph-canvas[data-lod="compact"] .gcard-desc,
+.graph-canvas[data-lod="compact"] .gcard-meta,
+.graph-canvas[data-lod="compact"] .gcard-head .badge { display: none; }
+.graph-canvas[data-lod="compact"] .gcard { justify-content: center; }
+.graph-canvas[data-lod="compact"] .gcard-head { font-size: 20px; gap: 10px; }
+.graph-canvas[data-lod="compact"] .gcard-head .dot { width: 16px; height: 16px; }
+.graph-canvas[data-lod="compact"] .gcard-id { font-size: 18px; }
+.graph-canvas[data-lod="block"] .gcard > * { visibility: hidden; }
+.graph-canvas[data-lod="block"] .gcard { background: var(--finished); border-color: transparent; }
+.graph-canvas[data-lod="block"] .gcard.status-running { background: var(--running); }
+.graph-canvas[data-lod="block"] .gcard.status-idle { background: var(--idle); }
+.graph-canvas[data-lod="block"] .gcard.status-stale { background: var(--stale); }
+.graph-canvas[data-lod="block"] .gcard.is-selected { box-shadow: 0 0 0 6px var(--accent); }
+.graph-canvas[data-lod="block"] .gsession > * { visibility: hidden; }
+.graph-canvas[data-tools="off"] .gpill,
+.graph-canvas[data-tools="off"] .gedge-usage { display: none; }
+
+/* ---- overlays: toolbar, banners, messages, legend ----------------------------- */
+
+.graph-toolbar {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  width: fit-content;
+  max-width: calc(100% - 16px);
+  padding: 4px 6px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  cursor: default;
+}
+.graph-toolbar select { font-size: 12px; padding: 1px 4px; }
+.graph-toolbar .btn[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); }
+.graph-zoom { min-width: 3.2em; text-align: center; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--muted); }
+.graph-hint { font-size: 12px; }
+
+.graph-banners {
+  position: absolute;
+  top: 52px;
+  left: 8px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: calc(100% - 16px);
+  cursor: default;
+}
+.graph-banners:empty { display: none; }
+.graph-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 5px 10px;
+  font-size: 12.5px;
+  background: color-mix(in srgb, var(--warn) 12%, var(--panel));
+  border: 1px solid var(--warn);
+  border-radius: 6px;
+}
+
+.graph-message {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.graph-message:empty { display: none; }
+.graph-message > * { pointer-events: auto; }
+.graph-message.is-hint { align-items: flex-end; padding-bottom: 20%; }
+.graph-message.is-hint > * { pointer-events: none; }
+.graph-message .empty, .graph-message .loading { background: var(--panel); padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border); }
+.graph-error { display: flex; flex-direction: column; align-items: center; gap: 8px; max-width: 32rem; padding: 12px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; cursor: default; }
+.graph-error-actions { display: flex; gap: 8px; }
+
+.graph-new-pill { z-index: 3; bottom: 20px; }
+
+.graph-legend {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  z-index: 3;
+  max-height: calc(100% - 70px);
+  overflow: auto;
+  width: 17rem;
+  max-width: calc(100% - 16px);
+  padding: 6px 12px 10px;
+  font-size: 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  cursor: default;
+}
+.graph-legend h3 { margin: 8px 0 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.graph-legend ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.graph-legend li { display: flex; align-items: center; gap: 8px; }
+.graph-legend p { margin: 8px 0 0; }
+.glegend-edge { flex: none; overflow: visible; }
+.glegend-swatch { flex: none; display: inline-block; width: 26px; height: 14px; border: 1px solid var(--border); border-radius: 3px; background: var(--panel); }
+.glegend-swatch.sw-agent { border-left: 4px solid var(--running); }
+.glegend-swatch.sw-session { background: var(--panel-2); }
+.glegend-swatch.sw-tool { border-radius: 999px; }
+.glegend-swatch.sw-skill { border-color: var(--skill); border-radius: 2px 7px 7px 2px; }
+.glegend-swatch.sw-more { border-style: dashed; border-radius: 999px; }
+
+/* ---- minimap (10.6a) ------------------------------------------------------------ */
+
+.graph-minimap {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  opacity: 0.7;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: crosshair;
+  touch-action: none;
+}
+.graph-minimap:hover { opacity: 1; }
+.graph-minimap.is-hidden { display: none; }
+.graph-minimap rect { shape-rendering: crispEdges; }
+.mm-bg { fill: var(--panel); }
+.mm-agent { fill: var(--finished); }
+.mm-running { fill: var(--running); }
+.mm-idle { fill: var(--idle); }
+.mm-stale { fill: var(--stale); }
+.mm-session { fill: var(--muted); }
+.mm-tool, .mm-more { fill: var(--border); }
+.mm-skill { fill: var(--skill); }
+.mm-selected { stroke: var(--accent); stroke-width: 1.5; }
+.mm-view { fill: color-mix(in srgb, var(--accent) 10%, transparent); stroke: var(--accent); stroke-width: 1.5; pointer-events: none; }
+
+@media (max-width: 720px) {
+  .graph-toolbar { gap: 3px 4px; }
+  .graph-legend { width: auto; right: 8px; max-height: 50%; }
+}
+
+/* ---- reduced motion (G-FR-44) ----------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .gnode, .gnode.is-new, .gpill.is-flash, .gpill-active, .gcard.status-running,
+  .gcard.is-new.status-running, .gtool.is-active, .gedge.is-active { transition: none; animation: none; }
+  .gcard.status-running { border-left-width: 7px; }
+  .gedge.is-active { stroke-dasharray: none; }
+  .gcard .dot-running { animation: none; }
+  .graph-minimap rect { transition: none; }
+}

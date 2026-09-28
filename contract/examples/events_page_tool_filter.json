@@ -1,0 +1,46 @@
+{
+  "agentKey": "claude:s-main:a2222222222222222",
+  "items": [
+    {
+      "seq": 1,
+      "kind": "tool_call",
+      "timestamp": "2026-09-25T10:00:03.200Z",
+      "role": "assistant",
+      "uuid": "d2",
+      "parentUuid": "d1",
+      "messageId": "msg_d1",
+      "model": "claude-haiku-4-5-20251001",
+      "preview": "{\"command\": \"false\"}",
+      "truncated": false,
+      "redacted": false,
+      "toolCallId": "toolu_X",
+      "toolName": "Bash",
+      "isError": false,
+      "spawnedAgentKey": null,
+      "resultSeq": 2,
+      "durationMs": 200
+    },
+    {
+      "seq": 2,
+      "kind": "tool_result",
+      "timestamp": "2026-09-25T10:00:03.400Z",
+      "role": "tool",
+      "uuid": "d3",
+      "parentUuid": "d2",
+      "messageId": null,
+      "model": null,
+      "preview": "Exit code 1",
+      "truncated": false,
+      "redacted": false,
+      "toolCallId": "toolu_X",
+      "toolName": "Bash",
+      "isError": true,
+      "spawnedAgentKey": null
+    }
+  ],
+  "fromSeq": 1,
+  "toSeq": 2,
+  "total": 4,
+  "hasBefore": false,
+  "hasAfter": false
+}

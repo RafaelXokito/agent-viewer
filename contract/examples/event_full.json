@@ -1,0 +1,14 @@
+{
+  "seq": 2,
+  "kind": "tool_result",
+  "toolCallId": "toolu_X",
+  "isError": true,
+  "content": "Exit code 1",
+  "input": null,
+  "blocks": [
+    {
+      "type": "text",
+      "text": "Exit code 1"
+    }
+  ]
+}

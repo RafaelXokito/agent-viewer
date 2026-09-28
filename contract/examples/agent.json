@@ -1,0 +1,30 @@
+{
+  "key": "claude:s-main:a2222222222222222",
+  "agentId": "a2222222222222222",
+  "sessionId": "s-main",
+  "parentKey": "claude:s-main:a1111111111111111",
+  "depth": 2,
+  "agentType": "general-purpose",
+  "description": "Nested child",
+  "name": null,
+  "linkedBy": "meta",
+  "spawnToolCallId": "toolu_N",
+  "spawnedAt": "2026-09-25T10:00:02.500Z",
+  "lastActivityAt": "2026-09-25T10:00:03.600Z",
+  "status": "finished",
+  "stoppedByUser": false,
+  "isFork": false,
+  "forkedSkill": null,
+  "resumes": [],
+  "models": [
+    "claude-haiku-4-5-20251001"
+  ],
+  "eventCount": 4,
+  "missing": false,
+  "children": [],
+  "warnings": [],
+  "tokensTotal": 610,
+  "file": "/home/user/.claude/projects/-tmp-demo/s-main/subagents/agent-a2222222222222222.jsonl",
+  "toolCalls": 1,
+  "skills": []
+}

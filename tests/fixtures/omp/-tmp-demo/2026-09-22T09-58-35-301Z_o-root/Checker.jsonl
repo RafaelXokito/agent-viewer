@@ -1,0 +1,5 @@
+{"type":"session","version":3,"id":"o-child","timestamp":"2026-09-22T09:58:46.500Z","cwd":"/tmp/demo","parentSession":"__FIXTURE_ROOT__/omp/-tmp-demo/2026-09-22T09-58-35-301Z_o-root.jsonl"}
+{"type":"session_init","id":"i1","parentId":null,"timestamp":"2026-09-22T09:58:46.600Z","systemPrompt":"You are a reviewer."}
+{"type":"custom_message","customType":"irc:incoming","id":"q1","parentId":"i1","timestamp":"2026-09-22T09:59:00.000Z","content":"<irc>Incoming IRC message from agent `Main`: hurry</irc>","display":true}
+{"type":"message","id":"r1","parentId":"q1","timestamp":"2026-09-22T09:59:10.000Z","message":{"role":"assistant","model":"gemini-3.8-flash","stopReason":"aborted","errorMessage":"Request was aborted","content":[],"usage":{"input":1,"output":0,"cacheRead":0,"cacheWrite":0}}}
+{"type":"custom","customType":"session_exit","data":{"reason":"dispose","kind":"normal"},"id":"x2","parentId":"r1","timestamp":"2026-09-22T09:59:11.000Z"}

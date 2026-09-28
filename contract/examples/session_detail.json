@@ -1,0 +1,283 @@
+{
+  "key": "claude:s-main",
+  "source": "claude",
+  "sessionId": "s-main",
+  "project": "-tmp-demo",
+  "cwd": "/tmp/demo",
+  "gitBranch": "feature/DEMO-1",
+  "title": "Demo session",
+  "firstPrompt": "Spawn two helpers and use the review skill. <img src=x onerror=alert(1)>",
+  "startedAt": "2026-09-25T10:00:00.000Z",
+  "lastActivityAt": "2026-09-25T10:01:00.000Z",
+  "status": "stale",
+  "indexed": true,
+  "agentCount": 5,
+  "runningAgents": 0,
+  "tokens": {
+    "input": 39,
+    "output": 129,
+    "cacheRead": 6200,
+    "cacheCreation": 1000,
+    "reasoning": 0,
+    "total": 7368
+  },
+  "errors": 1,
+  "continuedFrom": null,
+  "continuedIn": null,
+  "prUrl": null,
+  "rootAgentKey": "claude:s-main:main",
+  "version": null,
+  "tree": {
+    "sessionKey": "claude:s-main",
+    "rootKey": "claude:s-main:main",
+    "nodes": {
+      "claude:s-main:main": {
+        "key": "claude:s-main:main",
+        "agentId": "main",
+        "sessionId": "s-main",
+        "parentKey": null,
+        "depth": 0,
+        "agentType": "main",
+        "description": null,
+        "name": null,
+        "linkedBy": "root",
+        "spawnToolCallId": null,
+        "spawnedAt": "2026-09-25T10:00:00.000Z",
+        "lastActivityAt": "2026-09-25T10:00:32.100Z",
+        "status": "finished",
+        "stoppedByUser": false,
+        "isFork": false,
+        "forkedSkill": null,
+        "resumes": [],
+        "models": [
+          "claude-opus-5-5"
+        ],
+        "eventCount": 16,
+        "missing": false,
+        "children": [
+          "claude:s-main:a1111111111111111",
+          "claude:s-main:a3333333333333333",
+          "claude:s-main:a4444444444444444"
+        ],
+        "warnings": [],
+        "tokensTotal": 5235
+      },
+      "claude:s-main:a1111111111111111": {
+        "key": "claude:s-main:a1111111111111111",
+        "agentId": "a1111111111111111",
+        "sessionId": "s-main",
+        "parentKey": "claude:s-main:main",
+        "depth": 1,
+        "agentType": "general-purpose",
+        "description": "Helper one",
+        "name": null,
+        "linkedBy": "meta",
+        "spawnToolCallId": "toolu_A",
+        "spawnedAt": "2026-09-25T10:00:01.100Z",
+        "lastActivityAt": "2026-09-25T10:00:05.000Z",
+        "status": "finished",
+        "stoppedByUser": false,
+        "isFork": false,
+        "forkedSkill": null,
+        "resumes": [
+          {
+            "byAgentKey": "claude:s-main:main",
+            "toolCallId": "toolu_M",
+            "timestamp": "2026-09-25T10:00:04.500Z"
+          }
+        ],
+        "models": [
+          "claude-haiku-4-5-20251001"
+        ],
+        "eventCount": 6,
+        "missing": false,
+        "children": [
+          "claude:s-main:a2222222222222222"
+        ],
+        "warnings": [],
+        "tokensTotal": 1521
+      },
+      "claude:s-main:a2222222222222222": {
+        "key": "claude:s-main:a2222222222222222",
+        "agentId": "a2222222222222222",
+        "sessionId": "s-main",
+        "parentKey": "claude:s-main:a1111111111111111",
+        "depth": 2,
+        "agentType": "general-purpose",
+        "description": "Nested child",
+        "name": null,
+        "linkedBy": "meta",
+        "spawnToolCallId": "toolu_N",
+        "spawnedAt": "2026-09-25T10:00:02.500Z",
+        "lastActivityAt": "2026-09-25T10:00:03.600Z",
+        "status": "finished",
+        "stoppedByUser": false,
+        "isFork": false,
+        "forkedSkill": null,
+        "resumes": [],
+        "models": [
+          "claude-haiku-4-5-20251001"
+        ],
+        "eventCount": 4,
+        "missing": false,
+        "children": [],
+        "warnings": [],
+        "tokensTotal": 610
+      },
+      "claude:s-main:a3333333333333333": {
+        "key": "claude:s-main:a3333333333333333",
+        "agentId": "a3333333333333333",
+        "sessionId": "s-main",
+        "parentKey": "claude:s-main:main",
+        "depth": 1,
+        "agentType": "ecc:code-explorer",
+        "description": "Helper legacy",
+        "name": null,
+        "linkedBy": "transcript",
+        "spawnToolCallId": "toolu_B",
+        "spawnedAt": "2026-09-25T10:00:01.200Z",
+        "lastActivityAt": "2026-09-25T10:00:02.600Z",
+        "status": "stale",
+        "stoppedByUser": false,
+        "isFork": false,
+        "forkedSkill": null,
+        "resumes": [],
+        "models": [
+          "claude-sonnet-4-6"
+        ],
+        "eventCount": 2,
+        "missing": false,
+        "children": [],
+        "warnings": [],
+        "tokensTotal": 2
+      },
+      "claude:s-main:a4444444444444444": {
+        "key": "claude:s-main:a4444444444444444",
+        "agentId": "a4444444444444444",
+        "sessionId": "s-main",
+        "parentKey": "claude:s-main:main",
+        "depth": 1,
+        "agentType": null,
+        "description": null,
+        "name": null,
+        "linkedBy": "orphan",
+        "spawnToolCallId": null,
+        "spawnedAt": "2026-09-25T10:01:00.000Z",
+        "lastActivityAt": "2026-09-25T10:01:00.000Z",
+        "status": "stale",
+        "stoppedByUser": false,
+        "isFork": false,
+        "forkedSkill": null,
+        "resumes": [],
+        "models": [],
+        "eventCount": 1,
+        "missing": false,
+        "children": [],
+        "warnings": [
+          "orphan"
+        ],
+        "tokensTotal": 0
+      }
+    }
+  },
+  "stats": {
+    "scope": "subtree",
+    "tokens": {
+      "input": 39,
+      "output": 129,
+      "cacheRead": 6200,
+      "cacheCreation": 1000,
+      "reasoning": 0,
+      "total": 7368
+    },
+    "costUsd": null,
+    "byModel": {
+      "claude-opus-5-5": {
+        "messages": 4,
+        "input": 25,
+        "output": 110,
+        "cacheRead": 4900,
+        "cacheCreation": 200
+      },
+      "claude-haiku-4-5-20251001": {
+        "messages": 5,
+        "input": 13,
+        "output": 18,
+        "cacheRead": 1300,
+        "cacheCreation": 800
+      },
+      "claude-sonnet-4-6": {
+        "messages": 1,
+        "input": 1,
+        "output": 1,
+        "cacheRead": 0,
+        "cacheCreation": 0
+      }
+    },
+    "tools": {
+      "Agent": {
+        "calls": 3,
+        "errors": 0,
+        "totalDurationMs": 1100
+      },
+      "Skill": {
+        "calls": 1,
+        "errors": 0,
+        "totalDurationMs": 500
+      },
+      "SendMessage": {
+        "calls": 1,
+        "errors": 0,
+        "totalDurationMs": 500
+      },
+      "Bash": {
+        "calls": 1,
+        "errors": 1,
+        "totalDurationMs": 200
+      },
+      "Read": {
+        "calls": 1,
+        "errors": 0,
+        "totalDurationMs": 0
+      }
+    },
+    "skills": {
+      "code-review": {
+        "count": 1,
+        "via": {
+          "tool": 1,
+          "slash": 0,
+          "fork": 0,
+          "read": 0, "preload": 0
+        }
+      }
+    },
+    "slashCommands": {
+      "model": 1
+    },
+    "subagentTypes": {
+      "general-purpose": 2,
+      "ecc:code-explorer": 1
+    },
+    "agents": {
+      "total": 5,
+      "maxDepth": 2,
+      "running": 0
+    },
+    "durationMs": 60000,
+    "activeDurationMs": 32000,
+    "errors": {
+      "toolErrors": 1,
+      "apiErrors": 0,
+      "aborted": 0
+    },
+    "turns": 4,
+    "parse": {
+      "lines": 28,
+      "skipped": 0,
+      "unknownTypes": {
+        "brand-new-type": 1
+      }
+    }
+  }
+}

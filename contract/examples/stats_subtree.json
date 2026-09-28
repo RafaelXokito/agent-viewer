@@ -1,0 +1,100 @@
+{
+  "scope": "subtree",
+  "tokens": {
+    "input": 39,
+    "output": 129,
+    "cacheRead": 6200,
+    "cacheCreation": 1000,
+    "reasoning": 0,
+    "total": 7368
+  },
+  "costUsd": null,
+  "byModel": {
+    "claude-opus-5-5": {
+      "messages": 4,
+      "input": 25,
+      "output": 110,
+      "cacheRead": 4900,
+      "cacheCreation": 200
+    },
+    "claude-haiku-4-5-20251001": {
+      "messages": 5,
+      "input": 13,
+      "output": 18,
+      "cacheRead": 1300,
+      "cacheCreation": 800
+    },
+    "claude-sonnet-4-6": {
+      "messages": 1,
+      "input": 1,
+      "output": 1,
+      "cacheRead": 0,
+      "cacheCreation": 0
+    }
+  },
+  "tools": {
+    "Agent": {
+      "calls": 3,
+      "errors": 0,
+      "totalDurationMs": 1100
+    },
+    "Skill": {
+      "calls": 1,
+      "errors": 0,
+      "totalDurationMs": 500
+    },
+    "SendMessage": {
+      "calls": 1,
+      "errors": 0,
+      "totalDurationMs": 500
+    },
+    "Bash": {
+      "calls": 1,
+      "errors": 1,
+      "totalDurationMs": 200
+    },
+    "Read": {
+      "calls": 1,
+      "errors": 0,
+      "totalDurationMs": 0
+    }
+  },
+  "skills": {
+    "code-review": {
+      "count": 1,
+      "via": {
+        "tool": 1,
+        "slash": 0,
+        "fork": 0,
+        "read": 0, "preload": 0
+      }
+    }
+  },
+  "slashCommands": {
+    "model": 1
+  },
+  "subagentTypes": {
+    "general-purpose": 2,
+    "ecc:code-explorer": 1
+  },
+  "agents": {
+    "total": 5,
+    "maxDepth": 2,
+    "running": 0
+  },
+  "durationMs": 60000,
+  "activeDurationMs": 32000,
+  "errors": {
+    "toolErrors": 1,
+    "apiErrors": 0,
+    "aborted": 0
+  },
+  "turns": 4,
+  "parse": {
+    "lines": 28,
+    "skipped": 0,
+    "unknownTypes": {
+      "brand-new-type": 1
+    }
+  }
+}

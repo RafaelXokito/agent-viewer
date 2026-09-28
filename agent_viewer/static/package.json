@@ -1,0 +1,5 @@
+{
+  "name": "agent-viewer-static",
+  "private": true,
+  "type": "module"
+}

@@ -1,0 +1,153 @@
+{
+  "sessionKey": "claude:s-main",
+  "rootKey": "claude:s-main:main",
+  "nodes": {
+    "claude:s-main:main": {
+      "key": "claude:s-main:main",
+      "agentId": "main",
+      "sessionId": "s-main",
+      "parentKey": null,
+      "depth": 0,
+      "agentType": "main",
+      "description": null,
+      "name": null,
+      "linkedBy": "root",
+      "spawnToolCallId": null,
+      "spawnedAt": "2026-09-25T10:00:00.000Z",
+      "lastActivityAt": "2026-09-25T10:00:32.100Z",
+      "status": "finished",
+      "stoppedByUser": false,
+      "isFork": false,
+      "forkedSkill": null,
+      "resumes": [],
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "eventCount": 16,
+      "missing": false,
+      "children": [
+        "claude:s-main:a1111111111111111",
+        "claude:s-main:a3333333333333333",
+        "claude:s-main:a4444444444444444"
+      ],
+      "warnings": [],
+      "tokensTotal": 5235
+    },
+    "claude:s-main:a1111111111111111": {
+      "key": "claude:s-main:a1111111111111111",
+      "agentId": "a1111111111111111",
+      "sessionId": "s-main",
+      "parentKey": "claude:s-main:main",
+      "depth": 1,
+      "agentType": "general-purpose",
+      "description": "Helper one",
+      "name": null,
+      "linkedBy": "meta",
+      "spawnToolCallId": "toolu_A",
+      "spawnedAt": "2026-09-25T10:00:01.100Z",
+      "lastActivityAt": "2026-09-25T10:00:05.000Z",
+      "status": "finished",
+      "stoppedByUser": false,
+      "isFork": false,
+      "forkedSkill": null,
+      "resumes": [
+        {
+          "byAgentKey": "claude:s-main:main",
+          "toolCallId": "toolu_M",
+          "timestamp": "2026-09-25T10:00:04.500Z"
+        }
+      ],
+      "models": [
+        "claude-haiku-4-5-20251001"
+      ],
+      "eventCount": 6,
+      "missing": false,
+      "children": [
+        "claude:s-main:a2222222222222222"
+      ],
+      "warnings": [],
+      "tokensTotal": 1521
+    },
+    "claude:s-main:a2222222222222222": {
+      "key": "claude:s-main:a2222222222222222",
+      "agentId": "a2222222222222222",
+      "sessionId": "s-main",
+      "parentKey": "claude:s-main:a1111111111111111",
+      "depth": 2,
+      "agentType": "general-purpose",
+      "description": "Nested child",
+      "name": null,
+      "linkedBy": "meta",
+      "spawnToolCallId": "toolu_N",
+      "spawnedAt": "2026-09-25T10:00:02.500Z",
+      "lastActivityAt": "2026-09-25T10:00:03.600Z",
+      "status": "finished",
+      "stoppedByUser": false,
+      "isFork": false,
+      "forkedSkill": null,
+      "resumes": [],
+      "models": [
+        "claude-haiku-4-5-20251001"
+      ],
+      "eventCount": 4,
+      "missing": false,
+      "children": [],
+      "warnings": [],
+      "tokensTotal": 610
+    },
+    "claude:s-main:a3333333333333333": {
+      "key": "claude:s-main:a3333333333333333",
+      "agentId": "a3333333333333333",
+      "sessionId": "s-main",
+      "parentKey": "claude:s-main:main",
+      "depth": 1,
+      "agentType": "ecc:code-explorer",
+      "description": "Helper legacy",
+      "name": null,
+      "linkedBy": "transcript",
+      "spawnToolCallId": "toolu_B",
+      "spawnedAt": "2026-09-25T10:00:01.200Z",
+      "lastActivityAt": "2026-09-25T10:00:02.600Z",
+      "status": "stale",
+      "stoppedByUser": false,
+      "isFork": false,
+      "forkedSkill": null,
+      "resumes": [],
+      "models": [
+        "claude-sonnet-4-6"
+      ],
+      "eventCount": 2,
+      "missing": false,
+      "children": [],
+      "warnings": [],
+      "tokensTotal": 2
+    },
+    "claude:s-main:a4444444444444444": {
+      "key": "claude:s-main:a4444444444444444",
+      "agentId": "a4444444444444444",
+      "sessionId": "s-main",
+      "parentKey": "claude:s-main:main",
+      "depth": 1,
+      "agentType": null,
+      "description": null,
+      "name": null,
+      "linkedBy": "orphan",
+      "spawnToolCallId": null,
+      "spawnedAt": "2026-09-25T10:01:00.000Z",
+      "lastActivityAt": "2026-09-25T10:01:00.000Z",
+      "status": "stale",
+      "stoppedByUser": false,
+      "isFork": false,
+      "forkedSkill": null,
+      "resumes": [],
+      "models": [],
+      "eventCount": 1,
+      "missing": false,
+      "children": [],
+      "warnings": [
+        "orphan"
+      ],
+      "tokensTotal": 0
+    }
+  }
+}
