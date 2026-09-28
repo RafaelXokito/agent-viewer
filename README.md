@@ -78,3 +78,7 @@ The server accepts only `GET` and `HEAD`, only from `127.0.0.1`, and rejects for
 
 The transcript formats are undocumented and can change between tool versions.
 Lines that fail to parse are skipped and counted, never fatal.
+
+## License
+
+[MIT](LICENSE)
