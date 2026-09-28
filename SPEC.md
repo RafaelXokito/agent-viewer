@@ -541,7 +541,7 @@ Codes: `bad_request` (400), `not_found` (404), `method_not_allowed` (405), `forb
 | `GET /api/stream` | SSE (7.4) |
 
 `/api/sessions` query parameters:
-`source` (`claude`, `omp`), `project` (exact), `branch` (substring, case-insensitive), `since` and `until` (ISO date or datetime, applied to `lastActivityAt`), `status` (comma list of `running,idle,stale,finished`, or `recent`), `q` (substring over title, first prompt, sessionId), `limit` (default 50, max 200), `cursor` (opaque).
+`source` (`claude`, `omp`), `project` (exact), `branch` (substring, case-insensitive), `since` and `until` (ISO date or datetime, applied to `lastActivityAt`), `status` (comma list of `running,idle,stale,finished`, or `recent`, meaning every running, idle or stale session plus those finished within the recent window), `q` (substring over title, first prompt, sessionId), `limit` (default 50, max 200), `cursor` (opaque).
 Sort is `lastActivityAt` descending, ties by key.
 
 `/events` query parameters:

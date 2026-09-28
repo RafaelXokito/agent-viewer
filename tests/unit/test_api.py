@@ -96,9 +96,11 @@ class FilterSessionsTest(unittest.TestCase):
     def test_status_list(self):
         self.assertEqual(self.keys({"status": "running,stale"}), ["claude:a", "claude:d"])
 
-    def test_status_recent_means_finished_within_window(self):
-        self.assertEqual(self.keys({"status": "recent"}), ["omp:c"])
-        self.assertEqual(self.keys({"status": "running,recent"}), ["claude:a", "omp:c"])
+    def test_status_recent_means_active_or_finished_within_window(self):
+        # SPEC G1 and the UI's "Active + finished 24h": running, idle and stale sessions always count as recent.
+        self.assertEqual(self.keys({"status": "recent"}), ["claude:a", "omp:c", "claude:d"])
+        self.assertEqual(self.keys({"status": "running,recent"}), ["claude:a", "omp:c", "claude:d"])
+        self.assertEqual(self.keys({"status": "finished,recent"}), ["claude:a", "omp:c", "claude:d", "claude:b"])
 
     def test_unknown_status_is_bad_request(self):
         with self.assertRaises(api_mod.ApiError):

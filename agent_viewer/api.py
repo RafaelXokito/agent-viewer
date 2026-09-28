@@ -22,6 +22,7 @@ from urllib.parse import parse_qs, unquote
 
 SOURCES = ("claude", "omp")
 STATUSES = ("running", "idle", "stale", "finished")
+ACTIVE_STATUSES = frozenset(("running", "idle", "stale"))
 RECENT = "recent"
 EVENT_KINDS = frozenset(("prompt", "text", "thinking", "tool_call", "tool_result", "skill",
                          "notification", "system", "compaction", "error", "meta"))
@@ -166,8 +167,10 @@ def _status_predicate(text, now, recent_window):
         status = item.get("status")
         if status in wanted:
             return True
-        return (RECENT in wanted and status == "finished"
-                and _ts(item.get("lastActivityAt")) >= cutoff)
+        if RECENT not in wanted:
+            return False
+        # "recent" is every active session plus those finished within the window (SPEC G1).
+        return status in ACTIVE_STATUSES or (status == "finished" and _ts(item.get("lastActivityAt")) >= cutoff)
     return matches
 
 
